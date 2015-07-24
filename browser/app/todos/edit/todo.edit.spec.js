@@ -28,12 +28,16 @@ describe('Todo edit', function () {
 		describe('.keepChanges method', function () {
 
 			it('uses the Todo factory', function () {
+				// if you are curious how this is being used, check out line 4 todo.edit.html
 				$scope.keepChanges();
 				expect(Todo.update).to.have.been.called.once;
 			});
 
 			it('goes to the todo\'s detail state after it has been updated', function () {
 				$scope.keepChanges();
+				// use $state.go to make this work
+				// $state._mockUrl will be the url *if* the state actually transitioned
+				// but since this is a test spec it does not actually transition
 				expect($state._mockUrl).to.equal('/todos/456');
 			});
 
@@ -54,10 +58,14 @@ describe('Todo edit', function () {
 		});
 
 		it('resolves with given todo', function () {
-			var Todo = {getOne: function (id) {
+			var Todo = {getOne: chai.spy(function (id) {
 				return {_id: id};
-			}};
-			var result = $state.get('todos.detail').resolve.todo(Todo, {id: '123'});
+			})};
+			var todoEditState = $state.get('todos.edit');
+			var fn = todoEditState.resolve.todo;
+			expect(fn).to.be.a('function');
+			var result = fn(Todo, {id: '123'});
+			expect(Todo.getOne).to.have.been.called.once;
 			expect(result).to.eql({_id: '123'});
 		});
 

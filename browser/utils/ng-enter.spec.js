@@ -2,6 +2,7 @@
 
 var expect = chai.expect;
 
+// if you are curious how this is being used, check out line 6 of todo.item.html
 describe('ng-enter directive', function () {
 
 	beforeEach(module('angularAssessment'));
@@ -24,7 +25,7 @@ describe('ng-enter directive', function () {
 		expect(ddo.scope.ngEnter).to.equal('&');
 	});
 
-	it('triggers expression evaluation upon enter keypress', function () {
+	it('triggers expression evaluation upon "enter" keypress', function () {
 		inject(function ($compile, $rootScope) {
 			var scope = $rootScope.$new();
 			scope.doSomething = chai.spy();

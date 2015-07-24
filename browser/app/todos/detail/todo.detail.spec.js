@@ -19,10 +19,14 @@ describe('Todo detail', function () {
 		});
 
 		it('resolves with given todo', function () {
-			var Todo = {getOne: function (id) {
+			var Todo = {getOne: chai.spy(function (id) {
 				return {_id: id};
-			}};
-			var result = $state.get('todos.detail').resolve.todo(Todo, {id: '123'});
+			})};
+			var todoDetailState = $state.get('todos.detail');
+			var fn = todoDetailState.resolve.todo;
+			expect(fn).to.be.a('function');
+			var result = fn(Todo, {id: '123'});
+			expect(Todo.getOne).to.have.been.called.once;
 			expect(result).to.eql({_id: '123'});
 		});
 

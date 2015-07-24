@@ -51,6 +51,7 @@ describe('Todo item', function () {
 
 			it('toggles the todo\'s .complete field', function () {
 				$scope.theTodo = {complete: false};
+				// if you are curious how this is being used, check out line 6 of todo.item.html
 				$scope.toggleComplete();
 				expect($scope.theTodo.complete).to.equal(true);
 				$scope.toggleComplete();
@@ -63,6 +64,7 @@ describe('Todo item', function () {
 
 			it('uses Todo factory', function () {
 				$scope.theTodo = {_id: 'abc123'};
+				// if you are curious how this is being used, check out line 8 of todo.item.html
 				$scope.removeTodo();
 				expect(Todo.destroy).to.have.been.called.once;
 			});
@@ -70,6 +72,9 @@ describe('Todo item', function () {
 			it('after removal, goes to the todo list state', function () {
 				$scope.theTodo = {_id: 'abc123'};
 				$scope.removeTodo();
+				// use $state.go to make this work
+				// $state._mockUrl will be the url *if* the state actually transitioned
+				// but since this is a test spec it does not actually transition
 				expect($state._mockUrl).to.equal('/todos');
 			});
 

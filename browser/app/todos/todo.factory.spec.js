@@ -11,11 +11,6 @@ describe('Todo factory', function () {
 		$httpBackend = _$httpBackend_;
 	}));
 
-	afterEach('http backend assertions', function () {
-		$httpBackend.verifyNoOutstandingExpectation();
-		$httpBackend.verifyNoOutstandingRequest();
-	});
-
 	var Todo;
 	beforeEach(inject(function (_Todo_) {
 		Todo = _Todo_;
@@ -29,6 +24,8 @@ describe('Todo factory', function () {
 		})
 		.catch(done);
 		$httpBackend.flush();
+		$httpBackend.verifyNoOutstandingExpectation();
+		$httpBackend.verifyNoOutstandingRequest();
 		done();
 	});
 
@@ -40,6 +37,8 @@ describe('Todo factory', function () {
 		})
 		.catch(done);
 		$httpBackend.flush();
+		$httpBackend.verifyNoOutstandingExpectation();
+		$httpBackend.verifyNoOutstandingRequest();
 		done();
 	});
 
@@ -47,6 +46,8 @@ describe('Todo factory', function () {
 		$httpBackend.expect('DELETE', '/api/todos/abc123').respond(204);
 		Todo.destroy('abc123').catch(done);
 		$httpBackend.flush();
+		$httpBackend.verifyNoOutstandingExpectation();
+		$httpBackend.verifyNoOutstandingRequest();
 		done();
 	});
 
@@ -58,6 +59,8 @@ describe('Todo factory', function () {
 		})
 		.catch(done);
 		$httpBackend.flush();
+		$httpBackend.verifyNoOutstandingExpectation();
+		$httpBackend.verifyNoOutstandingRequest();
 		done();
 	});
 
@@ -69,6 +72,8 @@ describe('Todo factory', function () {
 		})
 		.catch(done);
 		$httpBackend.flush();
+		$httpBackend.verifyNoOutstandingExpectation();
+		$httpBackend.verifyNoOutstandingRequest();
 		done();
 	});
 
@@ -89,6 +94,8 @@ describe('Todo factory', function () {
 				cachedTodos = all;
 			}).catch(done);
 			$httpBackend.flush();
+			$httpBackend.verifyNoOutstandingExpectation();
+			$httpBackend.verifyNoOutstandingRequest();
 			done();
 		});
 
@@ -98,6 +105,8 @@ describe('Todo factory', function () {
 			Todo.add().catch(done);
 			$httpBackend.flush();
 			expect(cachedTodos.pop().title).to.equal('Thing4');
+			$httpBackend.verifyNoOutstandingExpectation();
+			$httpBackend.verifyNoOutstandingRequest();
 			done();
 		});
 
@@ -107,6 +116,8 @@ describe('Todo factory', function () {
 			Todo.destroy('a1xxxxxxxxxxxxxxxxxxxxxx').catch(done);
 			$httpBackend.flush();
 			expect(cachedTodos).to.not.contain(firstInCache);
+			$httpBackend.verifyNoOutstandingExpectation();
+			$httpBackend.verifyNoOutstandingRequest();
 			done();
 		});
 

@@ -29,6 +29,7 @@ describe('Todo list', function () {
 
 			it('properly alters $scope.filterByCompleted', function () {
 				$scope.setCategory('all');
+				// if you are curious how this is being used, check out line 15 of todo.list.html
 				expect($scope.filterByCompleted).to.equal('');
 				$scope.setCategory('completed');
 				expect($scope.filterByCompleted).to.equal(true);
@@ -41,6 +42,7 @@ describe('Todo list', function () {
 		describe('.isActiveCategory method', function () {
 
 			it('returns boolean for category string based on whether or not it is selected', function () {
+				// if you are curious how this is being used, check out line 4,7,10 of todo.list.html
 				$scope.setCategory('all');
 				expect($scope.isActiveCategory('all')).to.equal(true);
 				expect($scope.isActiveCategory('completed')).to.equal(false);
@@ -56,8 +58,12 @@ describe('Todo list', function () {
 				expect(Todo.add).to.have.been.called.once;
 			});
 
+			// feel free to come back to this one once you've defined the edit state
 			it('goes to the todo\'s edit state after it has been added', function () {
 				$scope.addTodo();
+				// use $state.go to make this work
+				// $state._mockUrl will be the url *if* the state actually transitioned
+				// but since this is a test spec it does not actually transition
 				expect($state._mockUrl).to.equal('/todos/123/edit');
 			});
 
@@ -78,10 +84,14 @@ describe('Todo list', function () {
 		});
 
 		it('resolves with all todos', function () {
-			var Todo = {getAll: function () {
+			var Todo = {getAll: chai.spy(function (id) {
 				return [{_id: 'a'}, {_id: 'b'}];
-			}};
-			var result = $state.get('todos').resolve.todos(Todo);
+			})};
+			var todoListState = $state.get('todos');
+			var fn = todoListState.resolve.todos;
+			expect(fn).to.be.a('function');
+			var result = fn(Todo, {id: '123'});
+			expect(Todo.getAll).to.have.been.called.once;
 			expect(result).to.eql([{_id: 'a'}, {_id: 'b'}]);
 		});
 
