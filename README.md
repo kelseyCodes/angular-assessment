@@ -34,6 +34,6 @@
 ## Things you should be aware of
 
 - You can run `npm start` to fire up a server. Use this if you want to get a sense of what your app actually looks and feels like as you're passing the specs. If so, you can also seed the database with `npm run seed`.
-- We think you're swell, so try to just relax and do what you can.
+- We think you're swell, so try to just relax and do the best you can.
 
 < g o o d  l u c k 3
